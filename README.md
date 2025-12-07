@@ -1,2 +1,2 @@
 # JLU-ComputerScience-Materials
-25级计科学生整理的一些资料
+JLU25级计科学生做的一些资料，希望对大家有所帮助
