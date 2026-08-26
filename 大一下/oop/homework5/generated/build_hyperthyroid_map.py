@@ -3,6 +3,7 @@ from PIL import Image, ImageDraw, ImageFont
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.pagesizes import A3, landscape
 from reportlab.lib.utils import ImageReader
 
 
@@ -12,7 +13,7 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 PNG_PATH = OUT_DIR / "甲状腺功能亢进相关并发症预控预警地图.png"
 PDF_PATH = OUT_DIR / "甲状腺功能亢进相关并发症预控预警地图_严格配色版_大红中列.pdf"
-A4_PAGE_PNG_PATH = OUT_DIR / "甲状腺功能亢进相关并发症预控预警地图_严格配色版_大红中列_A4预览.png"
+A3_PAGE_PNG_PATH = OUT_DIR / "甲状腺功能亢进相关并发症预控预警地图_严格配色版_大红中列_A3预览.png"
 
 W, H = 4800, 4250
 NAVY = (3, 13, 49)
@@ -286,25 +287,33 @@ for top, mid, cause, prev, emg in [
 
 img.save(PNG_PATH, quality=95)
 
-# Match the reference .doc page setup: A4 landscape with the diagram embedded
-# as a picture inside the page, instead of treating the flowchart canvas as the
-# PDF page itself.
-page_w, page_h = 841.9000244140625, 595.29998779296875
-left_margin = 72
-right_margin = 72
-top_margin = 90.1500015258789
-bottom_margin = 90.1500015258789
-diagram_w = 504.5
-diagram_h = 371.5
+# Preserve the reference A4 landscape layout while enlarging every physical
+# measurement proportionally onto an A3 landscape page.
+a4_page_w = 841.9000244140625
+page_w, page_h = landscape(A3)
+page_scale = page_w / a4_page_w
+left_margin = 72 * page_scale
+right_margin = 72 * page_scale
+top_margin = 90.1500015258789 * page_scale
+bottom_margin = 90.1500015258789 * page_scale
+diagram_w = 504.5 * page_scale
+diagram_h = 371.5 * page_scale
 diagram_x = left_margin + ((page_w - left_margin - right_margin) - diagram_w) / 2
 diagram_y = bottom_margin
+title_font_size = 14 * page_scale
+title_baseline_offset = 13 * page_scale
 
 pdfmetrics.registerFont(TTFont("SimHei", FONT))
 c = canvas.Canvas(str(PDF_PATH), pagesize=(page_w, page_h))
-c.setFont("SimHei", 14)
+c.setTitle("甲状腺功能亢进相关并发症预控预警地图 - 严格配色版 - 大红中列")
+c.setFont("SimHei", title_font_size)
 page_title = "甲状腺功能亢进相关并发症预控预警"
-page_title_w = pdfmetrics.stringWidth(page_title, "SimHei", 14)
-c.drawString((page_w - page_title_w) / 2, page_h - top_margin + 13, page_title)
+page_title_w = pdfmetrics.stringWidth(page_title, "SimHei", title_font_size)
+c.drawString(
+    (page_w - page_title_w) / 2,
+    page_h - top_margin + title_baseline_offset,
+    page_title,
+)
 c.drawImage(
     ImageReader(str(PNG_PATH)),
     diagram_x,
@@ -317,15 +326,18 @@ c.drawImage(
 c.showPage()
 c.save()
 
-# A raster preview of the A4 page at 4x scale for quick visual QA.
-scale = 4
+# A raster preview of the A3 page for quick visual QA.
+scale = 3
 page_img = Image.new("RGB", (int(page_w * scale), int(page_h * scale)), WHITE)
 page_draw = ImageDraw.Draw(page_img)
 preview_title = "甲状腺功能亢进相关并发症预控预警"
-preview_font = font(56)
+preview_font = font(round(title_font_size * scale))
 preview_bbox = page_draw.textbbox((0, 0), preview_title, font=preview_font)
 page_draw.text(
-    (int((page_w * scale - (preview_bbox[2] - preview_bbox[0])) / 2), int((top_margin - 30) * scale)),
+    (
+        int((page_w * scale - (preview_bbox[2] - preview_bbox[0])) / 2),
+        int((top_margin - 30 * page_scale) * scale),
+    ),
     preview_title,
     fill=BLACK,
     font=preview_font,
@@ -334,8 +346,8 @@ page_img.paste(
     img.resize((int(diagram_w * scale), int(diagram_h * scale))),
     (int(diagram_x * scale), int((page_h - diagram_y - diagram_h) * scale)),
 )
-page_img.save(A4_PAGE_PNG_PATH, quality=95)
+page_img.save(A3_PAGE_PNG_PATH, quality=95)
 
 print(PNG_PATH)
 print(PDF_PATH)
-print(A4_PAGE_PNG_PATH)
+print(A3_PAGE_PNG_PATH)

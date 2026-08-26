@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int min(int a,int b)
+int mymin(int a,int b)
 {
     if(a<b)return a;
     else return b;
 }
 int gcd(int a,int b)
 {
-    int temp=min(a,b);
+    int temp=mymin(a,b);
     int t=0;
     for(int i=1;i<=temp;i++)
     {
