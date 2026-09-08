@@ -78,11 +78,11 @@ int main() {
     globalRegistry.registerAction(5, &a5);
     globalRegistry.registerAction(9, &a9);
     globalRegistry.registerAction(100, &a100);
-    std::cout << "--- 测试 condition 为 1 时 ---" << std::endl;
+    std::cout << "--- ���� condition Ϊ 1 ʱ ---" << std::endl;
     B b1(1);
     f(b1);
 
-    std::cout << "\n--- 测试 condition 为 100 时（新需求） ---" << std::endl;
+    std::cout << "--- ���� condition Ϊ 100 ʱ---" << std::endl;
     B b100(100);
     f(b100);
 

@@ -60,7 +60,7 @@ public:
     }
 };
 
-// Ö÷º¯Êý 2
+// 2
 int main()
 {
     Server srv2(2), srv3(3);
