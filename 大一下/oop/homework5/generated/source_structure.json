@@ -1,0 +1,35 @@
+﻿{
+    "path":  "C:\\Users\\Potato\\Desktop\\JLU-ComputerScience-Materials\\大一下\\oop\\homework5\\generated\\source.doc",
+    "pages":  1,
+    "words":  16,
+    "characters":  16,
+    "pageSetup":  {
+                      "width":  841.9000244140625,
+                      "height":  595.29998779296875,
+                      "leftMargin":  72,
+                      "rightMargin":  72,
+                      "topMargin":  90.1500015258789,
+                      "bottomMargin":  90.1500015258789,
+                      "orientation":  1
+                  },
+    "content":  "甲状腺功能减退相关并发症预控预警\r\u0001\r",
+    "paragraphs":  [
+                       "甲状腺功能减退相关并发症预控预警\r",
+                       "\u0001\r"
+                   ],
+    "tables":  [
+
+               ],
+    "shapes":  [
+
+               ],
+    "inlineShapes":  [
+                         {
+                             "index":  1,
+                             "type":  3,
+                             "width":  504.5,
+                             "height":  371.5,
+                             "rangeText":  "\u0001"
+                         }
+                     ]
+}

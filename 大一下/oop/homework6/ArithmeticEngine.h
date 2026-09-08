@@ -2,7 +2,6 @@
 #define ARITHMETIC_ENGINE_H
 
 // 运算引擎类：无状态工具类，只负责原有算术运算和旧版几何面积计算。
-// 本次扩展不重构该核心类，新增图形统一交给 Shape 多态体系处理。
 class ArithmeticEngine {
 public:
     static const int MAX_VALUE;

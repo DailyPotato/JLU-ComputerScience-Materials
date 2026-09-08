@@ -1,9 +1,9 @@
-Circle area = 78.54
+1 + 2 = 3
 --- Statistics ---
-circle: 1 times
+circle: 0 times
 rectangle: 0 times
 triangle: 0 times
-add: 0 times
+add: 1 times
 subtract: 0 times
 multiply: 0 times
 divide: 0 times
